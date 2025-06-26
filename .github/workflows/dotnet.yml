@@ -7,11 +7,11 @@ on:
     branches: [ "main" ]
 
 env:
-  DOTNET_VERSION: '6.0.x' # or your .NET version
+  DOTNET_VERSION: '6.0.x'  # Adjust if using .NET 7/8
 
 jobs:
   build:
-    runs-on: windows-latest # or ubuntu-latest if cross-platform
+    runs-on: windows-latest  # WPF requires Windows
 
     steps:
     - uses: actions/checkout@v3
@@ -22,10 +22,11 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
         
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore SideBar_Function/SideBar_Function.csproj  # Adjust path if needed
     
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build SideBar_Function/SideBar_Function.csproj --configuration Release --no-restore
     
+    # Only include this if you have tests:
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test SideBar_Function.Tests/SideBar_Function.Tests.csproj --no-build --verbosity normal
